@@ -2,6 +2,12 @@ from django.contrib.gis.db import models
 
 
 class Parcel(models.Model):
+    """
+    A parcel is a plot of land that you can buy and potentially
+    build housing or commercial space on. This is a model for which
+    there will be a migration that creates a PostgreSQL table that
+    can subsequently be populated with parcel data.
+    """
 
     class Meta:
         required_db_features = ["gis_enabled"]
@@ -17,10 +23,3 @@ class Parcel(models.Model):
 
     def __str__(self):
         return self.address
-
-    @property
-    def __geo_interface__(self):
-        return {
-            "geometry": {"type": "Polygon", "coordinates": self.boundary},
-            "properties": {"customer_class": self.customer_class},
-        }
